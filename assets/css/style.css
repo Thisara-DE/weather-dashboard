@@ -1,0 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+    padding: 20px; 
+    background-color: blue;
+    background-image: linear-gradient(to bottom right, rgb(115, 44, 167),rgb(22, 22, 85));   
+}
