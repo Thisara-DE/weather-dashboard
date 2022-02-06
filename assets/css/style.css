@@ -1,6 +1,6 @@
 * {
     margin: 0;
-    padding: 0;
+    padding: 0;    
 }
 
 .header {
@@ -9,3 +9,52 @@
     background-color: blue;
     background-image: linear-gradient(to bottom right, rgb(115, 44, 167),rgb(22, 22, 85));   
 }
+
+.form-heading {
+    font-size: 1em;
+}
+
+.today-cont {
+    border: blueviolet solid 2px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-right: 5px;
+    padding: 20px;
+}
+
+.my-card {
+    background-color: rgb(224, 206, 178);    
+    width: 18%;
+    padding: 5px;
+    border: blueviolet solid 2px;
+    text-align: left;
+    align-items: left;
+    border-radius: 5px;    
+}
+
+.card-header {
+    font-size: large;
+    font-weight: bold; 
+    background-image: linear-gradient(to bottom right, rgb(115, 44, 167),rgb(22, 22, 85));   
+    color: white;
+    padding: 5px;
+}
+
+.forecast-cont {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.form-container {
+    width: 20%;
+    padding: 20px 20px 20px 30px;
+    align-items: center;
+    border-bottom: 5px solid blueviolet solid 2px;
+}
+
+.forecast-heading {
+    font-size: 2em;
+}
+

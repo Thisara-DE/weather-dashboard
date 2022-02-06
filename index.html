@@ -13,16 +13,16 @@
 
     <main class="columns">
         <!-- search form -->
-        <div class="column is-two-fifths">
+        <div class="form-container mr-5">
             <div class="city-form" id="form-container">
-                <div class="form-title">
-                    <h2 id="form-title">Search for a City:</h2>
+                <div class="form-heading mb-4">
+                    <h2 class="is-size-3" id="form-title">Search for a City:</h2>
                 </div>
                 <div>
-                    <textarea name="city" id="city" placeholder="Enter City Name" class="city"></textarea>
+                    <textarea name="city" id="city" placeholder="Enter City Name" class="input is-link is-fixed mb-4"></textarea>
                 </div>
                 <div class="search-btn">
-                    <button id="searchBtn">Search</button>
+                    <button class="button is-primary" id="searchBtn" type="submit">Search</button>
                 </div>                
             </div>
             <div class="history" id="past-searches-container">
@@ -30,12 +30,11 @@
             </div>
         </div>
         <!-- current weather display -->
-        <div class="column">
-            <div class="columns">
-                <div class="column is-full today-weather" id="today-container">
+        <div>
+            <div>
+                <div class="today-cont" id="today-container">
                     <div class="today-weather-heading" id="city-date-container">
-                        <span><h2 id="city-date"></h2><p id="weather-desc"></p><img id="weatherImage" src="" alt="Weather icon for current weather"/></span>      
-                                                                 
+                        <span><h2 id="city-date"></h2><p id="weather-desc"></p><img id="weatherImage" src="" alt="Weather icon for current weather"/></span>                                                 
                     </div>
                     <div class="today-stats" id="today-stats-container">
 
@@ -46,19 +45,15 @@
                 </div>
             </div>
             <!-- 5 day forecast -->
-            <div class="columns">
-                <div class="column is-full forecast-heading">
+            <div>
+                <div class="forecast-heading">
                     <h3 id="forecast-title"></h3>
                 </div>
-                <div class="column is-one-fifth forecast-container" id="card-container">                    
-                    <div class="card" id="day-card">
-
-                    </div>
+                <div id="forecast-container" class="forecast-cont">                    
+                    
                 </div>
             </div>
-
         </div>
-
     </main>
 
 
