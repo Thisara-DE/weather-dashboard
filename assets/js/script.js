@@ -15,7 +15,7 @@ var dayNumber = 1;
 // form submit
 var buttonEventHandler = function(event) {
     console.log(event.target);
-    var cityInput = document.querySelector("input[name='city']").ariaValueMax;
+    var cityInput = document.querySelector("#city").value;
     console.log(cityInput);
 
 
@@ -149,4 +149,4 @@ var displayWeatherForecast = function(daily) {
     };
 }
 
-submitBtnEl.addEventListener("submit", buttonEventHandler);
+submitBtnEl.addEventListener("click", buttonEventHandler);
