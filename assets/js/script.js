@@ -2,7 +2,6 @@
 var formContainerEl = document.querySelector("#form-container");
 var submitBtnEl = document.querySelector("#searchBtn")
 var todayWeatherEl = document.querySelector("#today-container");
-var todayWeatherTitleEl = document.querySelector("#city-date");
 var currWeatherDescEl = document.querySelector("#weather-desc");
 var currWeatherIconEl = document.querySelector("#weatherImage");
 var forecastTitleEl = document.querySelector("#forecast-title");
@@ -10,16 +9,23 @@ var cardContainerEl = document.querySelector("#forecast-container");
 var historyContainerEl = document.querySelector("#past-searches-container");
 
 // Day counter for the forecast
-var dayNumber = 0;
+var dayNumber = 1;
+// todayWeatherEl.innerHTML = "";
+// todayWeatherEl.className = "";
 
 // form submit
-var buttonEventHandler = function(event) {    
+var buttonEventHandler = function(event) { 
+    todayWeatherEl.innerHTML = "";
+    
     var cityInput = document.querySelector("#city").value;
+
+    
 
     if(!cityInput) {
         alert("Enter a city name to proceed")
     } else {
-        getLatLngFromCity(cityInput);        
+        getLatLngFromCity(cityInput); 
+               
     }
 }
 
@@ -28,6 +34,10 @@ var loadHistoricData = function() {
         var cityInput = localStorage.getItem("city ");
         console.log(cityInput);
         var searchHistoryEl = document.createElement("button");
+        // searchHistoryEl.classList = "button is-primary";
+        searchHistoryEl.textContent = cityInput;
+
+        historyContainerEl.appendChild(searchHistoryEl);
     }
 }
 
@@ -56,6 +66,7 @@ var getLatLngFromCity = function(city) {
         });
 }
 
+
 // getting the weather from lat, lng
 var getWeatherInfo = function(lat, lng, city) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&exclude=minutely,hourly,alerts&units=imperial&&appid=4a6b93cc16d18aa04545c8e3d49857b2";
@@ -64,7 +75,7 @@ var getWeatherInfo = function(lat, lng, city) {
         .then(function(response) {
             console.log(apiUrl);
             if(response.ok) {
-                response.json().then(function(data) {
+                response.json().then(function(data) {                    
                     // current weather items
                     iconTag = data.current.weather[0].icon;
                     iconUrl = "http://openweathermap.org/img/wn/" + iconTag + "@2x.png";
@@ -79,10 +90,9 @@ var getWeatherInfo = function(lat, lng, city) {
                     displayCurrentWeather(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex); 
                     
                     // saving the city name in LocalStorage
-                    localStorage.setItem("city", city)
+                    localStorage.setItem("city", city);
 
-                    // calling the weather forecast function
-                    dayNumber = 1
+                    // calling the weather forecast function                    
                     displayWeatherForecast(data.daily);
                 });
             } else {
@@ -92,16 +102,23 @@ var getWeatherInfo = function(lat, lng, city) {
 }
 
 
-var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex) {
-    if (dayNumber === 0) {
-        todayWeatherEl.visibility = "hidden";
-        todayWeatherEl.className.visibility = "hidden";
-    }
-    
+var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex) { 
 
+    // todayWeatherTitleEl.textContent = city + " " + date;
+    // currWeatherIconEl.setAttribute("src", iconUrl);
+    // currWeatherDescEl.textContent = weatherDesc;    
+
+    todayWeatherEl.innerHTML = "";
+
+    var todayWeatherTitleEl = document.createElement("h2");
     todayWeatherTitleEl.textContent = city + " " + date;
+
+    var currWeatherDescEl = document.createElement("p");
+    currWeatherDescEl.textContent = weatherDesc;
+
+
+    var currWeatherIconEl = document.createElement("img");
     currWeatherIconEl.setAttribute("src", iconUrl);
-    currWeatherDescEl.textContent = weatherDesc;    
 
     // creating elements for current weather info
     var tempEl = document.createElement("p");
@@ -116,7 +133,7 @@ var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp,
     var uvIndexEl = document.createElement("p");
     uvIndexEl.textContent = "UV Index: " + uvIndex;
 
-    todayWeatherEl.append(tempEl, windEl, humidityEl, uvIndexEl);
+    todayWeatherEl.append(todayWeatherTitleEl, currWeatherDescEl, currWeatherIconEl, tempEl, windEl, humidityEl, uvIndexEl);
 
     return;
 }
@@ -124,9 +141,11 @@ var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp,
 var displayWeatherForecast = function(daily) {
     forecastTitleEl.textContent = "5-Day Forecast:";
 
+    cardContainerEl.innerHTML = "";
+
     for(var i = 0; i < 5; i++) {        
         // 5 day forecast items                                        
-        dateForecast = new Date(daily[dayNumber].dt*1000).toLocaleDateString();                              
+        dateForecast = new Date(daily[dayNumber].dt*1000).toLocaleDateString();                                    
         iconTagForecast = daily[dayNumber].weather[0].icon;
         iconForecastUrl = "http://openweathermap.org/img/wn/" + iconTagForecast + "@2x.png";
         tempHigh = daily[dayNumber].temp.max + "\u00B0F"; 
@@ -165,13 +184,7 @@ var displayWeatherForecast = function(daily) {
         cardEl.appendChild(humidityEl);
         cardContainerEl.appendChild(cardEl); 
         
-        if(dayNumber > 5 && i >5) {
-            dayNumber = 1;
-            return;
-        } else {
-            dayNumber++;
-        }
-
+        dayNumber++;
             
     };
 }
