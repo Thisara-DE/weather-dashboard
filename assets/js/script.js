@@ -7,20 +7,31 @@ var currWeatherDescEl = document.querySelector("#weather-desc");
 var currWeatherIconEl = document.querySelector("#weatherImage");
 var forecastTitleEl = document.querySelector("#forecast-title");
 var cardContainerEl = document.querySelector("#forecast-container");
+var historyContainerEl = document.querySelector("#past-searches-container");
 
 // Day counter for the forecast
-var dayNumber = 1;
-
+var dayNumber = 0;
 
 // form submit
-var buttonEventHandler = function(event) {
-    console.log(event.target);
+var buttonEventHandler = function(event) {    
     var cityInput = document.querySelector("#city").value;
-    console.log(cityInput);
 
-
+    if(!cityInput) {
+        alert("Enter a city name to proceed")
+    } else {
+        getLatLngFromCity(cityInput);        
+    }
 }
 
+var loadHistoricData = function() {
+    for(var i = 0; i < 5; i++) {
+        var cityInput = localStorage.getItem("city ");
+        console.log(cityInput);
+        var searchHistoryEl = document.createElement("button");
+    }
+}
+
+loadHistoricData();
 
 // converting city name to lat and lng
 var getLatLngFromCity = function(city) {
@@ -44,7 +55,6 @@ var getLatLngFromCity = function(city) {
             alert("Unable to connect to the weather app");
         });
 }
-getLatLngFromCity("St Cloud");
 
 // getting the weather from lat, lng
 var getWeatherInfo = function(lat, lng, city) {
@@ -66,9 +76,13 @@ var getWeatherInfo = function(lat, lng, city) {
                     wind = data.current.wind_speed +" MPH";   
                     humidity = data.current.humidity + " %";   
                     uvIndex = data.current.uvi;                         
-                    displayCurrentWeather(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex);    
+                    displayCurrentWeather(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex); 
+                    
+                    // saving the city name in LocalStorage
+                    localStorage.setItem("city", city)
 
                     // calling the weather forecast function
+                    dayNumber = 1
                     displayWeatherForecast(data.daily);
                 });
             } else {
@@ -79,7 +93,11 @@ var getWeatherInfo = function(lat, lng, city) {
 
 
 var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex) {
-    // todayWeatherEl.innerHTML = "";
+    if (dayNumber === 0) {
+        todayWeatherEl.visibility = "hidden";
+        todayWeatherEl.className.visibility = "hidden";
+    }
+    
 
     todayWeatherTitleEl.textContent = city + " " + date;
     currWeatherIconEl.setAttribute("src", iconUrl);
@@ -99,6 +117,8 @@ var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp,
     uvIndexEl.textContent = "UV Index: " + uvIndex;
 
     todayWeatherEl.append(tempEl, windEl, humidityEl, uvIndexEl);
+
+    return;
 }
 
 var displayWeatherForecast = function(daily) {
@@ -143,9 +163,16 @@ var displayWeatherForecast = function(daily) {
         cardEl.appendChild(tempLowEl);
         cardEl.appendChild(windEl);
         cardEl.appendChild(humidityEl);
-        cardContainerEl.appendChild(cardEl);        
+        cardContainerEl.appendChild(cardEl); 
+        
+        if(dayNumber > 5 && i >5) {
+            dayNumber = 1;
+            return;
+        } else {
+            dayNumber++;
+        }
 
-        dayNumber++;    
+            
     };
 }
 
