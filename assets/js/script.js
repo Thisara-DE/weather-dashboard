@@ -1,9 +1,7 @@
 // DOPM elements
 var formContainerEl = document.querySelector("#form-container");
-var submitBtnEl = document.querySelector("#searchBtn")
-var todayWeatherEl = document.querySelector("#today-container");
-var currWeatherDescEl = document.querySelector("#weather-desc");
-var currWeatherIconEl = document.querySelector("#weatherImage");
+var submitBtnEl = document.querySelector("#searchBtn");
+var todayWeatherContainerEl = document.querySelector("#todayEl");
 var forecastTitleEl = document.querySelector("#forecast-title");
 var cardContainerEl = document.querySelector("#forecast-container");
 var historyContainerEl = document.querySelector("#past-searches-container");
@@ -15,7 +13,7 @@ var dayNumber = 1;
 
 // form submit
 var buttonEventHandler = function(event) { 
-    todayWeatherEl.innerHTML = "";
+    // todayWeatherEl.innerHTML = "";
     
     var cityInput = document.querySelector("#city").value;
 
@@ -103,12 +101,14 @@ var getWeatherInfo = function(lat, lng, city) {
 
 
 var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp, wind, humidity, uvIndex) { 
+    todayWeatherContainerEl.innerHTML = "";    
 
-    // todayWeatherTitleEl.textContent = city + " " + date;
-    // currWeatherIconEl.setAttribute("src", iconUrl);
-    // currWeatherDescEl.textContent = weatherDesc;    
+    var todayWeatherEl = document.createElement("div");
+    todayWeatherEl.setAttribute("id", "today-container");
+    todayWeatherEl.className = "today-cont";
 
-    todayWeatherEl.innerHTML = "";
+    var currWeatherDescEl = document.createElement("div");
+    currWeatherDescEl.setAttribute("id", "weather-desc");     
 
     var todayWeatherTitleEl = document.createElement("h2");
     todayWeatherTitleEl.textContent = city + " " + date;
@@ -134,8 +134,8 @@ var displayCurrentWeather = function(city, date, weatherDesc, iconUrl, currTemp,
     uvIndexEl.textContent = "UV Index: " + uvIndex;
 
     todayWeatherEl.append(todayWeatherTitleEl, currWeatherDescEl, currWeatherIconEl, tempEl, windEl, humidityEl, uvIndexEl);
-
-    return;
+    todayWeatherContainerEl.appendChild(todayWeatherEl);
+    
 }
 
 var displayWeatherForecast = function(daily) {
