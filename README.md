@@ -15,7 +15,7 @@ This app will show you very useful live weather information for a given city. I 
 * CSS
 
 ## Website
-https://thisaramallawaarachchige.github.io/weather-dashboard/
+https://Thisara-DE.github.io/weather-dashboard/
 
 <img src="./assets/Screenshot-for-markdown.png" alt="Picture of the website's landing page"/>
 
